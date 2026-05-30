@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-color: hsl(223, 39%, 6%);
+  --panel-color: hsl(223, 39%, 9%);
+  --panel-hover: hsl(223, 39%, 12%);
+  --border-color: hsl(223, 20%, 20%);
+  --border-focus: hsl(158, 80%, 40%);
+  
+  --color-primary: hsl(158, 80%, 40%); /* Metallic Emerald */
+  --color-primary-glow: hsla(158, 80%, 40%, 0.15);
+  --color-secondary: hsl(38, 92%, 50%); /* Amber Gold */
+  
+  --text-main: hsl(0, 0%, 98%);
+  --text-muted: hsl(215, 14%, 65%);
+  --text-dark: hsl(223, 39%, 4%);
+  
+  --font-header: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  
+  --transition-spring: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Reset Global */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-header);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+p {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Scrollbar Brutalista */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* HUD Layout Grid & Utilities */
+.hud-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Card Brutalista com Acentuações e Cantos Retos (0px) */
+.brutal-card {
+  background-color: var(--panel-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0px;
+  padding: 1.5rem;
+  position: relative;
+  transition: var(--transition-spring);
+}
+
+.brutal-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 20px var(--color-primary-glow);
+  transform: translateY(-3px);
+}
+
+/* Efeito decorativo de linhas de código nos cantos (HUD vibe) */
+.brutal-card::before {
+  content: '01';
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--border-color);
+}
+
+.brutal-card:hover::before {
+  color: var(--color-primary);
+  content: 'OK';
+}
+
+/* Botão Brutalista com Transição de Mola */
+.brutal-btn {
+  background-color: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--text-main);
+  border-radius: 0px;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  transition: var(--transition-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.brutal-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary);
+  transition: var(--transition-spring);
+  z-index: 1;
+}
+
+.brutal-btn:hover::before {
+  left: 0;
+}
+
+.brutal-btn span, .brutal-btn svg {
+  position: relative;
+  z-index: 2;
+}
+
+.brutal-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--text-dark);
+}
+
+.brutal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--border-color);
+}
+.brutal-btn:disabled::before {
+  display: none;
+}
+
+.brutal-btn-primary {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.brutal-btn-primary::before {
+  background-color: var(--color-primary);
+}
+
+.brutal-btn-primary:hover {
+  color: var(--text-dark);
+}
+
+.brutal-btn-secondary {
+  border-color: var(--border-color);
+  color: var(--text-muted);
+}
+
+.brutal-btn-secondary::before {
+  background-color: var(--text-muted);
+}
+
+.brutal-btn-secondary:hover {
+  color: var(--bg-color);
+}
+
+.brutal-btn-danger {
+  border-color: #EF4444;
+  color: #EF4444;
+}
+
+.brutal-btn-danger::before {
+  background-color: #EF4444;
+}
+
+.brutal-btn-danger:hover {
+  color: var(--text-main);
+}
+
+/* Inputs e Forms Brutalistas */
+.brutal-input, .brutal-textarea, .brutal-select {
+  width: 100%;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 0px;
+  padding: 0.8rem;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  transition: var(--transition-spring);
+}
+
+.brutal-input:focus, .brutal-textarea:focus, .brutal-select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary-glow);
+}
+
+.brutal-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.05em;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+/* Tag/Stack Pill */
+.tag-pill {
+  background-color: hsl(223, 20%, 15%);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0px;
+}
+
+/* Animações e Skeletor */
+.skeleton-box {
+  background-color: hsl(223, 20%, 15%);
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 20%,
+    rgba(255, 255, 255, 0.08) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Alertas Toast */
+.brutal-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background-color: var(--panel-color);
+  border: 1px solid #EF4444;
+  color: var(--text-main);
+  padding: 1rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  z-index: 1000;
+  animation: slide-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.brutal-toast-success {
+  border-color: var(--color-primary);
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,59 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if the user is the authorized administrator
+    function isAdmin() {
+      // CRITICAL: Replace 'SUBSTITUA_PELO_UID_DO_ADMIN' with the actual UID from your Firebase Google Auth user.
+      // This enforces server-side database protection for the Spark plan.
+      return request.auth != null && request.auth.uid == 'ZAIWYuRKAkNHClicY4EiZX7PkZ53';
+    }
+
+    // Rules for projects collection
+    match /projects/{projectId} {
+      // Anyone can read projects (visitor access)
+      allow read: if true;
+
+      // Only the authenticated admin UID can create or update projects, with strict type validation
+      allow create, update: if isAdmin() && isValidProject();
+
+      // Only the authenticated admin UID can delete projects
+      allow delete: if isAdmin();
+    }
+
+    // Advanced schema validation for project write operations
+    function isValidProject() {
+      let data = request.resource.data;
+      
+      // Enforce only authorized keys are present in the document
+      let allowedKeys = [
+        'title', 'shortDescription', 'description', 'technologies', 'category',
+        'status', 'imageUrl', 'demoUrl', 'repositoryUrl', 'featured',
+        'order', 'createdAt', 'updatedAt'
+      ];
+      
+      // Enforce mandatory keys (demoUrl and repositoryUrl are optional, can be omitted or be strings)
+      let requiredKeys = [
+        'title', 'shortDescription', 'description', 'technologies', 'category',
+        'status', 'imageUrl', 'featured', 'order', 'createdAt', 'updatedAt'
+      ];
+
+      return data.keys().hasOnly(allowedKeys) &&
+             data.keys().hasAll(requiredKeys) &&
+             data.title is string &&
+             data.shortDescription is string &&
+             data.description is string &&
+             data.technologies is list &&
+             data.category is string &&
+             data.status is string &&
+             data.imageUrl is string &&
+             (data.demoUrl == null || data.demoUrl is string) &&
+             (data.repositoryUrl == null || data.repositoryUrl is string) &&
+             data.featured is bool &&
+             data.order is number &&
+             data.createdAt is timestamp &&
+             data.updatedAt is timestamp;
+    }
+  }
+}
